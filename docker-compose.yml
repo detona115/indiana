@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000    
+    volumes:
+      - .:/code
+    environment:
+      - SECRET_KEY=1py7!vkor(7464q@n@eamlnp$$8@j-u#jj0q_lp7-+p*kb%l@4_
+      - DEBUG=1
+      - POSTGRES_USER=superadmin
+      - POSTGRES_PASSWORD=superadmin
+      - POSTGRES_DB=sitedb
+    ports:
+      - 8000:8000
+    depends_on:
+      - mydb
+
+  mydb:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: superadmin
+      POSTGRES_PASSWORD: superadmin
+      POSTGRES_DB: sitedb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+volumes:
+  postgres_data:
